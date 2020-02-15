@@ -1,0 +1,69 @@
+ public static String decodeString2(String s) {
+        String ans = "";
+        Pointer i = new Pointer();
+
+        while (i.val < s.length()) {
+            char ch = s.charAt(i.val);
+            ans+=getSub(s, i);
+            i.val++;
+        }
+        return ans;
+    }
+
+    private static String getSub(String s, Pointer i) {
+        char ch = s.charAt(i.val);
+        String st = "";
+
+        if (ch == ']') {
+            System.out.println("have met ]");
+            return st;
+        }
+        int num = 1;
+        if (ch < '9' && ch > '0') {
+            num = Character.getNumericValue(ch);
+            i.val++;
+            ch = s.charAt(i.val);
+            if (ch == '[') {
+                i.val++;
+                st = inBrackets(s, i); //= instead +=
+            }
+            else if (ch == ']') {
+                System.out.println("have met ]");
+                return st;
+            }
+            else {
+                st+=ch;
+            }
+            st=stByN(st, num);
+        } else if (ch == '[') {
+            i.val++;
+            st += inBrackets(s, i);
+        } else if (ch == ']') {
+            System.out.println("have met ]");
+            return st;
+        }
+        else {
+            st += ch;
+        }
+        System.out.println("return grom get: " + st + ", i.val: " + i.val);
+        return st;
+    }
+
+    private static String inBrackets2(String s, Pointer i) {
+        String ans = "";
+        char ch = s.charAt(i.val);
+
+        if (ch == ']') {
+            System.out.println("have met ] in br");
+            return ans;
+        }
+
+        while (ch != ']') {
+         //   if (i.val >= s.length()) return ans;
+            ans += getSub(s, i);
+            i.val++;
+            System.out.println("in while " + ch + ", ans: " + ans + ", i.val: " + i.val);
+        }
+        System.out.println("returning from []: " + ans + ", i.val: " + i.val);
+        return ans;
+    }
